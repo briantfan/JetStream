@@ -9,7 +9,7 @@ import org.usfirst.frc.team2710.robot.RobotMap;
  */
 public class DriveCommand extends Command {
 	
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	
 	public DriveCommand() {
 		debug("constructor");

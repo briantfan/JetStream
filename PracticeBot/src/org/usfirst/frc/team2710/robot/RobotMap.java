@@ -27,8 +27,8 @@ public class RobotMap {
 	public static final int DRIVETRAIN_FRONT_LEFT_TALON = 1;
 	public static final int DRIVETRAIN_REAR_LEFT_TALON = 0;
 	
-	public static final int DRIVETRAIN_FRONT_RIGHT_TALON = 2;	
-	public static final int DRIVETRAIN_REAR_RIGHT_TALON = 0;
+	public static final int DRIVETRAIN_FRONT_RIGHT_TALON = 3;	
+	public static final int DRIVETRAIN_REAR_RIGHT_TALON = 2;
 	
 	public static final int DRIVETRAIN_ENCODER_A = 3;
 	public static final int DRIVETRAIN_ENCODER_B = 4;	

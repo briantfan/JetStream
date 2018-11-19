@@ -2,11 +2,19 @@ package org.usfirst.frc.team2710.robot;
 
 import org.usfirst.frc.team2710.robot.subsystems.Drivetrain;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.AnalogAccelerometer;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.opencv.core.Mat;
 import org.usfirst.frc.team2710.robot.commands.DriveCommand;
 import org.usfirst.frc.team2710.robot.commands.DriveShiftDown;
 import org.usfirst.frc.team2710.robot.commands.DriveShiftUp;
@@ -19,11 +27,13 @@ import org.usfirst.frc.team2710.robot.commands.DriveShiftUp;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static Drivetrain drivetrain = new Drivetrain();
+	public static Drivetrain drivetrain;
 	public static OI oi;
-	
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	
+    AHRS ahrs;
+
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -31,12 +41,13 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		drivetrain = new Drivetrain();
 		oi = new OI();
 		m_chooser.addDefault("Default Auto", new DriveCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
-		//drivetrain = new Drivetrain();
+		ahrs = new AHRS(SPI.Port.kMXP);
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 	
 	public void robotPeriodic() {
@@ -110,12 +121,33 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		/*
+		System.out.println(ahrs.getAngle());
+/*
+		// HACK to bypass command/subsystem architecture
 		double moveSpeed = Robot.oi.joystick1.getRawAxis(RobotMap.DRIVER_MOVE_AXIS);
 		double rotateSpeed = Robot.oi.joystick1.getRawAxis(RobotMap.DRIVER_ROTATE_AXIS);
 		System.out.println("teleop hack movespeed: " + moveSpeed + "  rotateSpeed: " + rotateSpeed);
 		Robot.drivetrain.arcadeDrive(moveSpeed, rotateSpeed);
-		*/
+*/
+		// HACK to show raw camera data
+		Mat mat = new Mat();
+		CameraServer.getInstance().getVideo().grabFrame(mat);
+		for (int row = 0; row < mat.rows() && row < 10; row++) {
+			StringBuilder sb = new StringBuilder();
+			for (int col = 0; col < mat.cols() && col < 10; col++) {
+				double[] data = mat.get(row, col);
+				for (int i = 0; i < data.length; i++) {
+					if (i == 0) {
+						sb.append("[");
+					} else {
+						sb.append(",");
+					}
+					sb.append(data[i]);
+				}
+				sb.append("] ");
+			}
+			System.out.println(sb.toString());
+		}
 	}
 
 	/**
