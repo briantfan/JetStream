@@ -6,6 +6,7 @@ import org.usfirst.frc.team2710.robot.commands.ElevatorCommand;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -20,7 +21,9 @@ public class Elevator extends Subsystem {
 	private WPI_VictorSPX rightVictor;
 	
 	private SpeedControllerGroup allMotors;
-	
+
+	private Solenoid armSolenoid;
+
 	public Elevator() {
 		super();
 		debug("constructor called");
@@ -37,6 +40,7 @@ public class Elevator extends Subsystem {
 		rightVIctor.follow(rightTalon);
 		*/
 		
+		armSolenoid = new Solenoid(RobotMap.ELEVATOR_ARM_SOLENOID);
 	}
 	
 	public void moveElevator(double moveSpeed) {
@@ -44,6 +48,11 @@ public class Elevator extends Subsystem {
 		allMotors.set(moveSpeed);
 	}
 
+	public void setArm(boolean on) {
+		debug("move arm: " + on);
+		armSolenoid.set(on);
+	}
+	
 	@Override
     public void initDefaultCommand() {
 		debug("initDefaultCommand to ElevatorCommand");

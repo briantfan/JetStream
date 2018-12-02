@@ -1,12 +1,7 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team2710.robot;
 
+import org.usfirst.frc.team2710.robot.commands.ArmOff;
+import org.usfirst.frc.team2710.robot.commands.ArmOn;
 import org.usfirst.frc.team2710.robot.commands.DriveShiftDown;
 import org.usfirst.frc.team2710.robot.commands.DriveShiftUp;
 import org.usfirst.frc.team2710.robot.commands.IntakeClose;
@@ -33,6 +28,8 @@ public class OI {
 	public Button A2 = new JoystickButton(joystick2, RobotMap.INTAKE_BACK);
 	public Button A3 = new JoystickButton(joystick2, RobotMap.INTAKE_OPEN);
 	public Button A4 = new JoystickButton(joystick2, RobotMap.INTAKE_CLOSE);
+	public Button A5 = new JoystickButton(joystick2, RobotMap.ARM_ON);
+	public Button A6 = new JoystickButton(joystick2, RobotMap.ARM_OFF);
 
 	public OI() {
 		D1.whenPressed(new DriveShiftDown());
@@ -42,5 +39,7 @@ public class OI {
 		A2.whileHeld(new IntakeCommand(false));
 		A3.whenPressed(new IntakeOpen());
 		A4.whenPressed(new IntakeClose());
+		A5.whenPressed(new ArmOn());
+		A6.whenPressed(new ArmOff());
 	}
 }

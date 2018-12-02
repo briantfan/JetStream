@@ -22,6 +22,8 @@ public class RobotMap {
 	public static final int ELEVATOR_RIGHT_TALON = 3;
 	public static final int ELEVATOR_LEFT_VICTOR = 11;
 	public static final int ELEVATOR_RIGHT_VICTOR = 4;	
+	
+	public static final int ELEVATOR_ARM_SOLENOID = 0;
 		
 	// Intake hardware
 	public static final int INTAKE_LEFT_VICTOR = 10;
@@ -42,4 +44,6 @@ public class RobotMap {
 	public static final int INTAKE_BACK = 3;
 	public static final int INTAKE_OPEN = 8;
 	public static final int INTAKE_CLOSE = 6;
+	public static final int ARM_ON = 7;
+	public static final int ARM_OFF = 5;
 }
